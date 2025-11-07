@@ -183,7 +183,12 @@ export default function ObservacionesScreen() {
               value={form.ubicacion}
               onChangeText={(text) => setForm({ ...form, ubicacion: text })}
             />
-
+            <TouchableOpacity
+              style={[styles.saveButton, { backgroundColor: '#4caf50' }]}>
+              <ThemedText type="defaultSemiBold" style={{ color: '#fff' }}>
+                Tomar foto
+              </ThemedText>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.saveButton} onPress={handleAddObservacion}>
               <ThemedText type="defaultSemiBold" style={{ color: '#fff' }}>
                 Guardar
