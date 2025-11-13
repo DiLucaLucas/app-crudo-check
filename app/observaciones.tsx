@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
   FlatList,
   Modal,
+  ScrollView,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  View,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { styles } from "./observaciones.styles"
+import { styles } from "./observaciones.styles";
 
-import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { initDB } from '@/src/db/database';
+import { createObservacion, getAllObservacion } from '@/src/services/observacion.service';
 
 type Observacion = {
   id: string;
@@ -24,7 +26,7 @@ type Observacion = {
 };
 
 export default function ObservacionesScreen() {
-  const [observaciones, setObservaciones] = useState<Observacion[]>([]);
+  const [observaciones, setObservaciones] = useState<any>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [form, setForm] = useState<Partial<Observacion>>({});
@@ -33,8 +35,28 @@ export default function ObservacionesScreen() {
   const severidades = ['Alta', 'Media', 'Baja'];
   const responsables = ['Jero', 'Lucas'];
 
-  const handleAddObservacion = () => {
+  useEffect(() => {
+    initDB();
+    getAllObservacion().then((res) => {
+      setObservaciones(res);
+      console.log('res', res)
+    });
+
+  }, []);
+
+
+
+  const handleAddObservacion = async () => {
     if (!form.titulo || !form.severidad) return;
+
+    const payload: Observacion = form;
+
+    let response = await createObservacion(payload); // 💾 guarda en SQLite
+    console.log('response', response);
+    const updated = await getAllObservacion(); // 🔄 recarga desde DB
+    setObservaciones(updated);
+
+
     setObservaciones([...observaciones, { id: Date.now().toString(), ...form } as Observacion]);
     setForm({});
     setModalVisible(false);
