@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+﻿# Aplicacion de registro de observaciones sin conexion.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+---
 
-## Get started
+# ⚙️ Herramientas utilizadas
 
-1. Install dependencies
+   * Expo
+   * React native
+   * Expo-network
+   * SQLite
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+# 🚀 Levantar Proyecto
 
 ```bash
-npm run reset-project
+    git clone -b master https://github.com/DiLucaLucas/app-crudo-check.git
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+```bash
+   cd app-crudo-check
+```
 
-## Learn more
+```bash
+   npx install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+   npx expo start -c
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🔮 Para el futuro...
 
-## Join the community
+   * Persistencia con backend
+   * Almacenamiento en la nube
 
-Join our community of developers creating universal apps.
+## 🤓 Desarrolladores
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Lucas Di Luca](https://www.linkedin.com/in/lucas-di-luca-martin/)
+
+- [Jerónimo Ezequiel Huincamán](https://www.linkedin.com/in/jer%C3%B3nimo-ezequiel-huincam%C3%A1n-756a22253?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BvGBrB8dTReqIebr3BxYYoA%3D%3D)
