@@ -7,6 +7,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { initDB } from '@/src/db/database';
 import { createObservacion, deleteObservacion, getAllObservacion } from '@/src/services/observacion.service';
+import * as ImagePicker from "expo-image-picker";
+import * as Location from "expo-location";
 
 type Observacion = {
   id: string;
@@ -16,6 +18,7 @@ type Observacion = {
   pozo: string;
   responsable: 'Jero' | 'Lucas';
   ubicacion?: string;
+  foto:any;
 };
 
 export default function ObservacionesScreen() {
@@ -61,6 +64,59 @@ export default function ObservacionesScreen() {
     setObservaciones(updated);        // 🔄 actualizar lista
   };
 
+  const handleTakePhoto = async () => {
+    const data = await takePhotoAndLocation();
+    if (!data) return;
+
+    console.log(data);
+
+    setForm({
+      ...form,
+      foto: data.photoUri,
+      ubicacion: data.ubicacion,
+    });
+  };
+
+
+  async function takePhotoAndLocation() {
+    try {
+      // 📸 Permiso de cámara
+      const { status: cameraStatus } = await ImagePicker.requestCameraPermissionsAsync();
+      if (cameraStatus !== "granted") {
+        alert("Permiso de cámara requerido");
+        return;
+      }
+
+      // 📍 Permiso de ubicación
+      const { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
+      if (locationStatus !== "granted") {
+        alert("Permiso de ubicación requerido");
+        return;
+      }
+
+      // 📸 Tomar foto
+      const result = await ImagePicker.launchCameraAsync({
+        quality: 0.6,
+        allowsEditing: false,
+        base64: true,
+      });
+
+      if (result.canceled) return;
+
+      const photoUri = result.assets[0].uri;
+
+      // 📍 Obtener ubicación actual
+      const location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+
+      return {
+        photoUri,
+        ubicacion: `${location.coords.latitude}, ${location.coords.longitude}`,
+      };
+
+    } catch (e) {
+      console.error("ERROR al tomar foto:", e);
+    }
+  }
 
   const renderSelectModal = (type: 'severidad' | 'responsable') => {
     const options = type === 'severidad' ? severidades : responsables;
@@ -212,7 +268,7 @@ export default function ObservacionesScreen() {
             />
             <TouchableOpacity
               style={[styles.saveButton, { backgroundColor: '#4caf50' }]}>
-              <ThemedText type="defaultSemiBold" style={{ color: '#fff' }}>
+              <ThemedText type="defaultSemiBold" style={{ color: '#fff' }} onPress={handleTakePhoto}>
                 Tomar foto
               </ThemedText>
             </TouchableOpacity>
