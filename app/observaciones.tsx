@@ -1,19 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import {
-  FlatList,
-  Modal,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, Modal, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { styles } from "./observaciones.styles";
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { initDB } from '@/src/db/database';
-import { createObservacion, getAllObservacion } from '@/src/services/observacion.service';
+import { createObservacion, deleteObservacion, getAllObservacion } from '@/src/services/observacion.service';
 
 type Observacion = {
   id: string;
@@ -61,6 +54,13 @@ export default function ObservacionesScreen() {
     setForm({});
     setModalVisible(false);
   };
+
+  const handleDelete = async (id: string) => {
+    await deleteObservacion(id);      // ❌ borrar en SQLite
+    const updated = await getAllObservacion();
+    setObservaciones(updated);        // 🔄 actualizar lista
+  };
+
 
   const renderSelectModal = (type: 'severidad' | 'responsable') => {
     const options = type === 'severidad' ? severidades : responsables;
@@ -126,6 +126,11 @@ export default function ObservacionesScreen() {
               <ThemedText style={{ color: getSeverityColor(item.severidad) }}>
                 {item.severidad}
               </ThemedText>
+
+              {/* Botón eliminar */}
+              <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                <Ionicons name="trash" size={22} color="#d32f2f" />
+              </TouchableOpacity>
             </View>
 
             {expandedId === item.id && (

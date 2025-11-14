@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '../db/database';
-import { IObservacion } from '../models/observation.model';
 
 export async function createObservacion(data: any) {
     console.log(data);
@@ -39,12 +38,12 @@ export async function createObservacion(data: any) {
     return observacion;
 }
 
-export async function getAllObservacion(): Promise<IObservacion[]> {
-    const result = await db.getAllAsync<IObservacion>(`SELECT * FROM observaciones ORDER BY timestamp DESC`);
+export async function getAllObservacion(): Promise<any[]> {
+    const result = await db.getAllAsync<any>(`SELECT * FROM observaciones ORDER BY timestamp DESC`);
     return result;
 }
 
-export async function updateobservacion(observacion: IObservacion) {
+export async function updateObservacion(observacion: any) {
     await db.runAsync(
         `UPDATE observaciones SET titulo=?, severidad=?, responsable=?, descripcion=?, pozo=?, ubicacion=?, foto=?, version=?, synced=0 WHERE id=?`,
         [
@@ -61,6 +60,6 @@ export async function updateobservacion(observacion: IObservacion) {
     );
 }
 
-export async function deleteobservacion(id: string) {
+export async function deleteObservacion(id: string) {
     await db.runAsync(`DELETE FROM observaciones WHERE id=?`, [id]);
 }
