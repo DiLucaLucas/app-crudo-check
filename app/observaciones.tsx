@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Modal, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Modal, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { styles } from "./observaciones.styles";
 
 import { ThemedText } from '@/components/themed-text';
@@ -18,7 +18,7 @@ type Observacion = {
   pozo: string;
   responsable: 'Jero' | 'Lucas';
   ubicacion?: string;
-  foto:any;
+  foto: any;
 };
 
 export default function ObservacionesScreen() {
@@ -195,6 +195,14 @@ export default function ObservacionesScreen() {
                 <ThemedText>Pozo: {item.pozo}</ThemedText>
                 <ThemedText>Ubicación: {item.ubicacion}</ThemedText>
                 <ThemedText style={{ marginTop: 4 }}>{item.descripcion}</ThemedText>
+                {item.foto && (
+                  <Image
+                    source={{ uri: item.foto }}
+                    style={{ width: "100%", height: 180, marginTop: 10, borderRadius: 8 }}
+                    resizeMode="cover"
+                  />
+                )}
+
               </View>
             )}
           </TouchableOpacity>
